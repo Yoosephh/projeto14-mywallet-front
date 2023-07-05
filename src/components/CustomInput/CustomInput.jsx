@@ -8,7 +8,7 @@ export default function CustomInput({data_test, placeholder, onChangeValue, type
   
   useEffect(()=> {
     onChangeValue(value)
-  }, [])
+  }, [value])
   return (
     <Input
     id={id}
@@ -19,7 +19,7 @@ export default function CustomInput({data_test, placeholder, onChangeValue, type
     value={value}
     required
     placeholder={placeholder}
-    onChange={e => setValue(e.target.value)}/>
+    onChange={e => {setValue(e.target.value)}}/>
   )
 }
 const Input = styled.input`

@@ -1,8 +1,10 @@
-import { styled } from "styled-components"
 import CustomInput from "../../components/CustomInput/CustomInput"
-import { useState } from "react"
 import CustomButton from "../../components/CustomButton/CustomButton"
+import { styled } from "styled-components"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import axios from "axios"
+
 
 export default function SignUp() {
 
@@ -16,7 +18,11 @@ export default function SignUp() {
   const navigate = useNavigate();
   function handleSubmit(e) {
     e.preventDefault();
-    navigate("/home")
+    axios.post("http://localhost:5000/cadastro", newUser)
+    .then(res => {
+      console.log(res)
+      navigate("/home")})
+    .catch(err => console.log(err))
   }
 
   return(
@@ -31,10 +37,11 @@ export default function SignUp() {
             placeholder={"Nome completo"}
             type={"text"} 
             data_test={"name"} 
-            onChangeValue={(name) => setNewUser(prevState =>( {
+            onChangeValue={(name) => {
+              setNewUser(prevState =>( {
               ...prevState,
               name
-            } ))}/> 
+            } ))}}/> 
         </div>
         <div className="email">
           <CustomInput 
@@ -77,7 +84,8 @@ export default function SignUp() {
           data_test={"sign-up-submit"}
           id={"entrar"}
           name={"entrar"}
-          message={"Cadastrar"}>
+          message={"Cadastrar"}
+          onClick={handleSubmit}>
           </CustomButton>
         </div>
       </form>
