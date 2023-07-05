@@ -18,10 +18,13 @@ export default function SignUp() {
   const navigate = useNavigate();
   function handleSubmit(e) {
     e.preventDefault();
+    if(newUser.confirmPassword !== newUser.password) {
+      return alert("As senhas precisam ser idênticas!")
+    }
     axios.post("http://localhost:5000/cadastro", newUser)
     .then(res => {
       console.log(res)
-      navigate("/home")})
+      navigate("/")})
     .catch(err => console.log(err))
   }
 
