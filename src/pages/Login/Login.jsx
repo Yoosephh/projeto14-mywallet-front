@@ -69,7 +69,7 @@ export default function Login() {
           </CustomButton>
         </div>
       </form>
-      <button className="signin" onClick={() => navigate("/cadastro")}>Primeira vez? Cadastre-se!</button>
+      <button className="signin"  onClick={() => navigate("/cadastro")}>Primeira vez? Cadastre-se!</button>
     </div>
   </BackGround>
   )}
