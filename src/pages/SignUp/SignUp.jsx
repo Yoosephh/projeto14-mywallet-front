@@ -25,7 +25,14 @@ export default function SignUp() {
     .then(res => {
       console.log(res)
       navigate("/")})
-    .catch(err => console.log(err))
+    .catch(err => {
+      if(err.response.status === 422) {
+        alert(err.response.data)
+      }
+      if(err.response.status === 409){
+        alert("Usuário já cadastrado no sistema!")
+      }
+    })
   }
 
   return(

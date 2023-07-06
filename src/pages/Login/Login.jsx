@@ -3,6 +3,7 @@ import CustomInput from "../../components/CustomInput/CustomInput"
 import { useState } from "react"
 import CustomButton from "../../components/CustomButton/CustomButton"
 import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
 export default function Login() {
   const [login, setLogin] = useState({
@@ -12,8 +13,24 @@ export default function Login() {
   const navigate = useNavigate()
   function handleLogin(e) {
     e.preventDefault();
-    navigate("/home")
+    axios.post("http://localhost:5000/", login)
+      .then(res => {
+        console.log(res)
+        navigate("/home")
+      })
+      .catch(err => {
+        if(err.response.status === 422) {
+        alert(err.response.data)
+      }
+      if(err.response.status === 401) {
+        alert(err.response.data)
+      }
+      if(err.response.status === 404) {
+        alert(err.response.data)
+      }
+    }) 
   }
+  
   return(
   <BackGround>
     <div className="content">
