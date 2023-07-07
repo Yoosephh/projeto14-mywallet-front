@@ -13,7 +13,7 @@ export default function Login() {
   const navigate = useNavigate()
   function handleLogin(e) {
     e.preventDefault();
-    axios.post("http://localhost:5000/", login)
+    axios.post(`${import.meta.env.VITE_API_URL}/`, login)
       .then(res => {
         console.log(res.data)
         localStorage.setItem("token", JSON.stringify({token: res.data, userEmail: login.email}))
