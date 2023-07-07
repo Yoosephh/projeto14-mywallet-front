@@ -15,7 +15,8 @@ export default function Login() {
     e.preventDefault();
     axios.post("http://localhost:5000/", login)
       .then(res => {
-        console.log(res)
+        console.log(res.data)
+        localStorage.setItem("token", JSON.stringify({token: res.data, userEmail: login.email}))
         navigate("/home")
       })
       .catch(err => {
