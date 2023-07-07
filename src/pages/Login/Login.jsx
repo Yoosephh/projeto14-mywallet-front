@@ -27,6 +27,7 @@ export default function Login() {
         alert(err.response.data)
       }
       if(err.response.status === 404) {
+        console.log(err.response)
         alert(err.response.data)
       }
     }) 
