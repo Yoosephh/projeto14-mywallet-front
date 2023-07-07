@@ -8,7 +8,6 @@ import NewTransfer from './pages/NewTransfer/NewTransfer'
 
 export default function App() {
 
-
   return (
     <UserProvider>
     <GlobalStyle />
