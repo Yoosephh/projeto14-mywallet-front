@@ -21,7 +21,7 @@ export default function Login() {
       })
       .catch(err => {
         if(err.response.status === 422) {
-        alert(err.response.data)
+        alert(err.response.status)
       }
       if(err.response.status === 401) {
         alert(err.response.data)
