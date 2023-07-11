@@ -45,7 +45,6 @@ export default function NewTransfer() {
 
         </div>
         <div className="Description">
-
           <CustomInput 
             data_test={"registry-name-input"}
             id={"Description"}
@@ -73,6 +72,8 @@ export default function NewTransfer() {
 
 const Toping = styled.div`
   h1{
+    margin-top: 10px;
+    margin-bottom: 15px;
     color: #FFF;
     font-family: Raleway;
     font-size: 26px;
@@ -91,5 +92,13 @@ const Page = styled.div`
   padding: 2% 0 2% 0;
 `
 const Form = styled.form`
-  
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  input {
+    width: 95%;
+  }
+  .button{
+    width: 95%;
+  }
 `

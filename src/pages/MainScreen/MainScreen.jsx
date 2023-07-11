@@ -51,23 +51,26 @@ export default function MainScreen() {
             </div>
           ) : (
             <div className="transaction">
+              <ul>
               {transactions.map((transaction) => {
                 if (transaction.type === "entrada") total += transaction.value;
                 else total -= transaction.value;
                 return (
-                  <ul key={transaction.time}>
-                    <li>
-                      <div className="time">
-                        {dayjs(transaction.time).format("DD/MM")}
-                      </div>
-                      <div className="description">{transaction.description}</div>
-                      <div className={transaction.type}>
-                        {transaction.value.toFixed(2).toString().replace(".", ",")}
-                      </div>
-                    </li>
-                  </ul>
+                  <li key={transaction.time} className="trans">
+                    <div className="left">
+                    <div className="time">
+                      {dayjs(transaction.time).format("DD/MM")}
+                    </div>
+                    <div data-test="registry-name" className="description">{transaction.description}</div>
+                    </div>
+                    
+                    <div data-test="registry-amount" className={transaction.type}>
+                      {transaction.value.toFixed(2).toString().replace(".", ",")}
+                    </div>
+                  </li>
                 );
               })}
+              </ul>
               <div className="foot">
                 <div className="saldo"><strong>SALDO</strong></div>
                 <div className={Number(total) >0 ? "entrada" : "saida"} data-test="total-amount">
@@ -117,6 +120,7 @@ const Toping = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
+  margin-top: 15px;
   h1 {
     color: #fff;
     font-family: Raleway;
@@ -145,16 +149,29 @@ const Content = styled.div`
   font-weight: 400;
   line-height: normal;
   position: relative;
+  overflow-y: scroll;
+  .left {
+    display: flex;
+    gap: 10px;
+  }
+  .trans {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+  }
   .transaction{
     display: flex;
     flex-direction: column;
   }
   .foot {
     position: absolute;
+    background-color: #fff;
+    height: 20px;
     bottom: 2%;
     left: 2%;
     display: flex;
     justify-content: space-between;
+    width: 96.5%;
   }
   ul {
     height: 100%;
@@ -170,6 +187,13 @@ const Content = styled.div`
   }
   .time {
     color: #c6c6c6;
+
+  }
+  .time, .entrada, .saida {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
   }
   .description {
     color: #000;
