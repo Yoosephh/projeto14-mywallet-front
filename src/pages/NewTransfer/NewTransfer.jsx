@@ -4,18 +4,19 @@ import CustomInput from "../../components/CustomInput/CustomInput";
 import { useContext, useState } from "react";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function NewTransfer() {
   const {user} = useContext(UserContext)
   const {tipo} = useParams();
+  const navigate = useNavigate();
 
   const [userCurrency, setUserCurrency] = useState({description:"", value:0 , type: tipo})
 
   function handleSubmit(e) {
     e.preventDefault();
-    axios.post(`${import.meta.env.VITE_API_URL}/nova-transacao/${tipo}`, userCurrency, user.token)
+    axios.post(`${import.meta.env.VITE_API_URL}/nova-transacao/${tipo}`, userCurrency, user.token).then(res => navigate("/home"))
   }
 
   return (

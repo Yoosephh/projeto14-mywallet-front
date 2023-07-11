@@ -30,7 +30,7 @@ export default function Login() {
       
       .catch(err => {
         if(err.response.status === 422) {
-        alert(err.response.status)
+        alert(err.response.data)
       }
       if(err.response.status === 401) {
         alert(err.response.data)

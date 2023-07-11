@@ -1,8 +1,9 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { styled } from "styled-components"
 import { UserContext } from "../../contexts/UserContext"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import dayjs from "dayjs"
 
 export default function MainScreen() {
   const {user} = useContext(UserContext)
@@ -10,10 +11,14 @@ export default function MainScreen() {
   const name = user ? user.name : ""
   const config = {headers: {Authentication: `Bearer ${token}`}}
   const navigate = useNavigate()
-
+  const [transactions, setTransactions] = useState([])
+  let total = 0;
   useEffect(()=> {
     axios.get(`${import.meta.env.VITE_API_URL}/home`,"", config)
     .then(res => {
+      if(res.data){
+        setTransactions(res.data)
+      }
       console.log(res)
     })
     .catch(err => {
@@ -34,7 +39,19 @@ export default function MainScreen() {
           <button onClick={logOut} data-test="logout"><ion-icon name="exit-outline"></ion-icon></button>
         </Toping>
         <Content>
-
+        <ul>
+        {transactions.length === 0 ? <div className="MainText">Não há registros de entrada ou saída</div> : transactions.map(transaction => {
+          if(transaction.type === "entrada") total += transaction.value
+          else total -= transaction.value
+          return (
+            <li key={transaction.time}>
+              <div className="time">{dayjs(transaction.time).format("DD/MM")}</div>
+              <div className="description">{transaction.description}</div>
+              <div className="value"> {transaction.value.replace(".", ",")}</div>
+            </li>
+          )
+        })}
+        </ul>
         </Content>
         <Buttons>
 
@@ -84,6 +101,32 @@ const Content = styled.div`
   border-radius: 5px;
   background: #FFF;
   height: 67vh;
+  font-family: Raleway;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  ul {
+    height: 100%;
+  }
+  .MainText{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: #868686;
+    text-align: center;
+    font-size: 20px;
+    height: 100%;
+  }
+  .time {
+    color: #C6C6C6;
+  }
+  .description{
+    color: #000;
+  }
+  .value {
+    color: ${(props) => (props.color === "entrada" ? "#03AC00" : "#C70000")};
+  }
 `
 const Buttons = styled.div`
   display: flex;
@@ -117,3 +160,8 @@ const Page = styled.div`
   margin: 0 auto;
   padding: 2% 0 2% 0;
 `
+const Value = styled.div`
+  font-size: 16px;
+  text-align: right;
+  color: ${(props) => (props.color === "entrada" ? "#03AC00" : "#C70000")};
+`;
