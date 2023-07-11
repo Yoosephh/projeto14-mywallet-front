@@ -27,6 +27,7 @@ export default function NewTransfer() {
         <Form onSubmit={handleSubmit}>
         <div className="Value">
           <CustomInput
+          data_test={"registry-amount-input"}
           type={"text"} 
           name={"currency-field"} 
           id={"currency-field"}
@@ -40,11 +41,11 @@ export default function NewTransfer() {
         <div className="Description">
 
           <CustomInput 
+            data_test={"registry-name-input"}
             id={"Description"}
             name={"Description"}
             placeholder={"Descrição"}
-            type={"text"} 
-            data_test={"email"} 
+            type={"text"}
             onChangeValue={(description) => setUserCurrency(prevState =>( {
               ...prevState,
               description
@@ -53,7 +54,7 @@ export default function NewTransfer() {
         </div>
         <CustomButton 
           message={`Salvar ${tipo}`}
-          data_test={"sign-in-submit"}
+          data_test={"registry-save"}
           id={"entrar"}
           name={"entrar"} onClick={handleSubmit}>
         </CustomButton>

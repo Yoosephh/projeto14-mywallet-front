@@ -30,19 +30,19 @@ export default function MainScreen() {
     <Background>
       <Page>
         <Toping>
-          <h1>Olá, {name}</h1>
-          <button onClick={logOut}><ion-icon name="exit-outline"></ion-icon></button>
+          <h1 data-test="user-name">Olá, {name}</h1>
+          <button onClick={logOut} data-test="logout"><ion-icon name="exit-outline"></ion-icon></button>
         </Toping>
         <Content>
 
         </Content>
         <Buttons>
 
-        <button onClick={() => navigate("/nova-transacao/entrada")} className="new entry">
+        <button onClick={() => navigate("/nova-transacao/entrada")} data-test="new-income" className="new entry">
           <div className="icon"><ion-icon name="add-circle-outline"></ion-icon></div>
           <div className="text"><h1>Nova</h1> <h1>Entrada</h1></div></button>
 
-        <button onClick={() => navigate("/nova-transacao/saida", {
+        <button data-test="new-expense" onClick={() => navigate("/nova-transacao/saida", {
           state:{tipo: "saída"}
         })} className="new exit">
           <div className="icon"><ion-icon name="remove-circle-outline"></ion-icon></div>
