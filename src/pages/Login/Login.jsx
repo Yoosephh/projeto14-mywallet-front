@@ -18,7 +18,7 @@ export default function Login() {
     axios.post(`${import.meta.env.VITE_API_URL}/`, login)
       .then(res => {
 
-        localStorage.setItem("token", JSON.stringify({token: res.data.token, name: res.data.name}))
+        localStorage.setItem("token", JSON.stringify({token: res.data.token, name: res.data.name}));
 
         setUser(prevState => ({
           ...prevState,

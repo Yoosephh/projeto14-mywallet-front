@@ -11,12 +11,17 @@ export default function NewTransfer() {
   const {user} = useContext(UserContext)
   const {tipo} = useParams();
   const navigate = useNavigate();
-
   const [userCurrency, setUserCurrency] = useState({description:"", value:0 , type: tipo})
 
   function handleSubmit(e) {
     e.preventDefault();
-    axios.post(`${import.meta.env.VITE_API_URL}/nova-transacao/${tipo}`, userCurrency, user.token).then(res => navigate("/home"))
+    const token = user ? user.token : "";
+
+    const config = {headers: { Authorization: `Bearer ${token}` }};
+
+    axios.post(`${import.meta.env.VITE_API_URL}/nova-transacao/${tipo}`, userCurrency, config)
+    .then(() => navigate("/home"))
+    .catch(err => console.log(err.message))
   }
 
   return (
@@ -35,7 +40,7 @@ export default function NewTransfer() {
           placeholder={"Valor"}
           onChangeValue={(value) => setUserCurrency(prevState =>({
             ...prevState,
-            value: Number(value)
+            value
           } ))} />
 
         </div>
