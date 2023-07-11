@@ -1,11 +1,13 @@
 import { styled } from "styled-components"
 import CustomInput from "../../components/CustomInput/CustomInput"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import CustomButton from "../../components/CustomButton/CustomButton"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import { UserContext } from "../../contexts/UserContext"
 
 export default function Login() {
+  const {setUser} = useContext(UserContext)
   const [login, setLogin] = useState({
     email:"",
     password:""
@@ -15,8 +17,14 @@ export default function Login() {
     e.preventDefault();
     axios.post(`${import.meta.env.VITE_API_URL}/`, login)
       .then(res => {
-        console.log(res.data)
-        localStorage.setItem("token", JSON.stringify({token: res.data, userEmail: login.email}))
+        
+        localStorage.setItem("token", JSON.stringify({token: res.data.token, name: res.data.name}))
+
+        setUser(prevState => ({
+          ...prevState,
+          name:res.data.name
+        }))
+
         navigate("/home")
       })
       .catch(err => {

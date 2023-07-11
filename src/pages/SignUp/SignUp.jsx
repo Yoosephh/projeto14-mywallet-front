@@ -23,9 +23,10 @@ export default function SignUp() {
     }
     axios.post(`${import.meta.env.VITE_API_URL}/cadastro`, newUser)
     .then(res => {
-      console.log(res)
+      console.log(res.data)
       navigate("/")})
     .catch(err => {
+      
       if(err.response.status === 422) {
         alert(err.response.data)
       }
