@@ -13,7 +13,7 @@ export default function App() {
   const location = useLocation()
 
   useEffect(() => {
-    if(localStorage.getItem("token") === null){
+    if(localStorage.getItem("token") === null && location.pathname !== '/cadastro'){
       navigate("/")
     } else if (localStorage.getItem("token") && location.pathname !== '/cadastro'){
       navigate("/home")

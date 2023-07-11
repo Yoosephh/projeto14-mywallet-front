@@ -17,7 +17,7 @@ export default function Login() {
     e.preventDefault();
     axios.post(`${import.meta.env.VITE_API_URL}/`, login)
       .then(res => {
-        
+
         localStorage.setItem("token", JSON.stringify({token: res.data.token, name: res.data.name}))
 
         setUser(prevState => ({
@@ -27,6 +27,7 @@ export default function Login() {
 
         navigate("/home")
       })
+      
       .catch(err => {
         if(err.response.status === 422) {
         alert(err.response.status)

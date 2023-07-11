@@ -4,60 +4,18 @@ import CustomInput from "../../components/CustomInput/CustomInput";
 import { useContext, useState } from "react";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import axios from "axios";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function NewTransfer() {
   const {user} = useContext(UserContext)
-  const location = useLocation();
   const {tipo} = useParams();
 
-  const [userCurrency, setUserCurrency] = useState({description:"", value:"", type: tipo})
-  function handleChange(event) {
-
-      const cleanedValue = event.target.value.replace(/\./g, "").replace(",", ".");
-      const numericValue = parseFloat(cleanedValue);
-      const formattedValue = new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }).format(numericValue)
-      setUserCurrency(prevState =>( {
-        ...prevState,
-        value: formattedValue
-      } ))
-  }
+  const [userCurrency, setUserCurrency] = useState({description:"", value:0 , type: tipo})
 
   function handleSubmit(e) {
     e.preventDefault();
-    
-    // const cleanedValue = userCurrency.value.replace(/\./g, "");
-
-    // // Replace comma separator with a dot
-    // const dotValue = cleanedValue.replace(",", ".");
-
-    // // Parse the dot-separated value as a floating-point number
-    // const numericValue = parseFloat(dotValue);
-
-    // // Check if the parsed value is a valid number
-    // if (!isNaN(numericValue)) {
-    //   // Format the numeric value as currency with decimal places
-    //   const formatter = new Intl.NumberFormat("pt-BR", {
-    //     style: "currency",
-    //     currency: "BRL",
-    //     minimumFractionDigits: 2,
-    //     maximumFractionDigits: 2,
-    //   });
-
-    //   const formattedValue = formatter.format(numericValue);
-
-      console.log(userCurrency); // Output: R$ 1.234,56
-
-      // axios.post(`${import.meta.env.VITE_API_URL}/nova-transacao/${tipo}`, {...userCurrency, value: numericValue}, user.token)
-    // } else {
-    //   console.log("Invalid input value");
-    // }
+    axios.post(`${import.meta.env.VITE_API_URL}/nova-transacao/${tipo}`, userCurrency, user.token)
   }
 
   return (
@@ -68,14 +26,19 @@ export default function NewTransfer() {
         </Toping>
         <Form onSubmit={handleSubmit}>
         <div className="Value">
-          <input
+          <CustomInput
           type={"text"} 
           name={"currency-field"} 
           id={"currency-field"}
           placeholder={"Valor"}
-          onChange={handleChange}/>
+          onChangeValue={(value) => setUserCurrency(prevState =>({
+            ...prevState,
+            value: Number(value)
+          } ))} />
+
         </div>
         <div className="Description">
+
           <CustomInput 
             id={"Description"}
             name={"Description"}
@@ -86,6 +49,7 @@ export default function NewTransfer() {
               ...prevState,
               description
             } ))}/>
+
         </div>
         <CustomButton 
           message={`Salvar ${tipo}`}
