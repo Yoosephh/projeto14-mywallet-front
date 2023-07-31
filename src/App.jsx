@@ -1,33 +1,39 @@
-import GlobalStyle from './assets/globalstyle'
+import { useEffect } from 'react'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import GlobalStyle from './assets/globalstyle'
 import UserProvider from './contexts/UserContext'
 import SignUp from './pages/SignUp/SignUp'
 import Login from './pages/Login/Login'
 import MainScreen from './pages/MainScreen/MainScreen'
 import NewTransfer from './pages/NewTransfer/NewTransfer'
-import { useEffect } from 'react'
 
 export default function App() {
 
   const navigate = useNavigate()
-  const location = useLocation()
+  const { pathname } = useLocation()
+
+  function goToInitialPage() {
+    if (localStorage.getItem("token")) {
+      navigate("/home")
+      return
+    }
+    navigate("/")
+  }
 
   useEffect(() => {
-    if(localStorage.getItem("token") === null && location.pathname !== '/cadastro'){
-      navigate("/")
-    } else if (localStorage.getItem("token") && location.pathname !== '/cadastro'){
-      navigate("/home")
+    if (pathname !== '/cadastro') {
+      goToInitialPage()
     }
-  }, [])
+  }, [pathname])
 
   return (
     <UserProvider>
     <GlobalStyle />
       <Routes>
-          <Route path="/cadastro" element={<SignUp />}/>
-          <Route path="/" element={<Login />}/>
-          <Route path="/home" element={<MainScreen />}/>
-          <Route path="/nova-transacao/:tipo" element={<NewTransfer />}/>
+          <Route path="/cadastro" element={<SignUp />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/home" element={<MainScreen />} />
+          <Route path="/nova-transacao/:tipo" element={<NewTransfer />} />
       </Routes>
     </UserProvider>
   )
